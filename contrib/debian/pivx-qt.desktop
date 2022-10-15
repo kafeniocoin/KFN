@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Kafeniocoin
+Comment= KFN P2P Cryptocurrency
+Comment[fr]= KFN, monnaie virtuelle cryptographique pair à pair
+Comment[tr]= KFN, eşten eşe kriptografik sanal para birimi
+Exec=kafeniocoin-qt %u
+Terminal=false
+Type=Application
+Icon=kafeniocoin128
+MimeType=x-scheme-handler/pivx;
+Categories=Office;Finance;
+StartupWMClass=Kafeniocoin-qt

@@ -1,0 +1,6 @@
+usr/local/bin/kafeniocoin-qt usr/bin
+share/pixmaps/kafeniocoin32.xpm usr/share/pixmaps
+share/pixmaps/kafeniocoin16.xpm usr/share/pixmaps
+share/pixmaps/kafeniocoin128.png usr/share/pixmaps
+debian/kafeniocoin-qt.desktop usr/share/applications
+debian/kafeniocoin-qt.protocol usr/share/kde4/services/
