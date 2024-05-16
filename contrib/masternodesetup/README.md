@@ -1,11 +1,11 @@
-![Example-Logo](https://sappcoin.com/wp-content/uploads/2021/05/Kafeniocoin-logo-transparent.png)
+![Example-Logo](https://explorer.kafeniocoin.com/img/logo.png)
 
 # Kafeniocoin Masternode Setup Guide
 ***
 ## Required
 1) **KFN collateral value at current block** ([consult the collateral table](../../README.md#rewards-breakdown))
-2) **Local Wallet https://github.com/KafeniocoinBF/Kafeniocoin/releases/latest**
-3) **VPS with UBUNTU 18.04** (it is possible to work on other versions but it is not tested)
+2) **Local Wallet https://github.com/kafeniocoin/KFN/releases/latest**
+3) **VPS with UBUNTU 22.04** (it is possible to work on other versions but it is not tested)
 4) **Putty https://www.putty.org/**
 5) **Text editor on your local pc to save data for copy/paste**
 ***
@@ -20,7 +20,7 @@ You will then receive your private key, save it in a txt to use it later.
   ```
   Example:
           createmasternodekey
-          8mTdWPF8Pbc6aTS36W5koLYZWSo5Jby5UJZWCAjDMo7AJYbBwy5
+          2nYZC6uqFUgYKVqQs3BY48n8Q6VPHE1mtDSNGNvfZKxoPvDLtFE
 * Still at Debug Console type ***getmasternodeoutputs*** and save txhash and outputidx on a txt
   ```
   Exemple:
@@ -32,7 +32,7 @@ You will then receive your private key, save it in a txt to use it later.
 * Once logged in your vps, *copy/paste* each line one by one with *Enter*
 
 ```
-wget -q https://raw.githubusercontent.com/KafeniocoinBF/Kafeniocoin/master/contrib/masternodesetup/masternodesetup.sh
+wget -q https://raw.githubusercontent.com/kafeniocoin/KFN/master/contrib/masternodesetup/masternodesetup.sh
 ```
 
 ```

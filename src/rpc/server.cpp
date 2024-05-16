@@ -2,7 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2020 The PIVX developers
-// Copyright (c) 2021 The DECENOMY Core Developers
+// Copyright (c) 2021-2022 The DECENOMY Core Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -266,11 +266,11 @@ UniValue stop(const JSONRPCRequest& jsonRequest)
     if (jsonRequest.fHelp || jsonRequest.params.size() > 1)
         throw std::runtime_error(
             "stop\n"
-            "\nStop KFN server.");
+            "\nStop Kafeniocoin server.");
     // Event loop will exit after current HTTP requests have been handled, so
     // this reply will get back to the client.
     StartShutdown();
-    return "KFN server stopping";
+    return "Kafeniocoin server stopping";
 }
 
 
@@ -298,11 +298,10 @@ static const CRPCCommand vRPCCommands[] =
         {"network", "setban", &setban, true },
         {"network", "listbanned", &listbanned, true },
         {"network", "clearbanned", &clearbanned, true },
+        {"network", "checkconnection", &checkconnection, true },
 
         /* Block chain and UTXO */
-        {"blockchain", "findserial", &findserial, true },
         {"blockchain", "getblockindexstats", &getblockindexstats, true },
-        {"blockchain", "getserials", &getserials, true },
         {"blockchain", "getblockchaininfo", &getblockchaininfo, true },
         {"blockchain", "getbestblockhash", &getbestblockhash, true },
         {"blockchain", "getblockcount", &getblockcount, true },
@@ -319,6 +318,8 @@ static const CRPCCommand vRPCCommands[] =
         {"blockchain", "invalidateblock", &invalidateblock, true },
         {"blockchain", "reconsiderblock", &reconsiderblock, true },
         {"blockchain", "verifychain", &verifychain, true },
+        {"blockchain", "getburnaddresses", &getburnaddresses, true },
+        {"blockchain", "rewindblockindex", &rewindblockindex, true },
 
         /* Mining */
         {"mining", "getblocktemplate", &getblocktemplate, true },
@@ -368,24 +369,17 @@ static const CRPCCommand vRPCCommands[] =
         {"kafeniocoin", "relaymasternodebroadcast", &relaymasternodebroadcast, true },
         {"kafeniocoin", "masternodecurrent", &masternodecurrent, true },
         {"kafeniocoin", "startmasternode", &startmasternode, true },
+        {"kafeniocoin", "reloadmasternodeconfig", &reloadmasternodeconfig, true },
         {"kafeniocoin", "createmasternodekey", &createmasternodekey, true },
         {"kafeniocoin", "getmasternodeoutputs", &getmasternodeoutputs, true },
         {"kafeniocoin", "listmasternodeconf", &listmasternodeconf, true },
+        {"kafeniocoin", "getactivemasternodecount", &getactivemasternodecount, true },
         {"kafeniocoin", "getmasternodestatus", &getmasternodestatus, true },
         {"kafeniocoin", "getmasternodewinners", &getmasternodewinners, true },
         {"kafeniocoin", "getmasternodescores", &getmasternodescores, true },
-        {"kafeniocoin", "preparebudget", &preparebudget, true },
-        {"kafeniocoin", "submitbudget", &submitbudget, true },
-        {"kafeniocoin", "mnbudgetvote", &mnbudgetvote, true },
-        {"kafeniocoin", "getbudgetvotes", &getbudgetvotes, true },
-        {"kafeniocoin", "getnextsuperblock", &getnextsuperblock, true },
-        {"kafeniocoin", "getbudgetprojection", &getbudgetprojection, true },
-        {"kafeniocoin", "getbudgetinfo", &getbudgetinfo, true },
-        {"kafeniocoin", "mnbudgetrawvote", &mnbudgetrawvote, true },
-        {"kafeniocoin", "mnfinalbudget", &mnfinalbudget, true },
-        {"kafeniocoin", "checkbudgets", &checkbudgets, true },
         {"kafeniocoin", "mnsync", &mnsync, true },
         {"kafeniocoin", "spork", &spork, true },
+        {"kafeniocoin", "mnping", &mnping, true },
 
 #ifdef ENABLE_WALLET
         /* Wallet */
@@ -394,27 +388,6 @@ static const CRPCCommand vRPCCommands[] =
         {"wallet", "getaddressinfo", &getaddressinfo, true },
         {"wallet", "getstakingstatus", &getstakingstatus, false },
         {"wallet", "multisend", &multisend, false },
-        {"zerocoin", "createrawzerocoinspend", &createrawzerocoinspend, false },
-        {"zerocoin", "getzerocoinbalance", &getzerocoinbalance, false },
-        {"zerocoin", "listmintedzerocoins", &listmintedzerocoins, false },
-        {"zerocoin", "listspentzerocoins", &listspentzerocoins, false },
-        {"zerocoin", "listzerocoinamounts", &listzerocoinamounts, false },
-        {"zerocoin", "mintzerocoin", &mintzerocoin, false },
-        {"zerocoin", "spendzerocoin", &spendzerocoin, false },
-        {"zerocoin", "spendrawzerocoin", &spendrawzerocoin, true },
-        {"zerocoin", "spendzerocoinmints", &spendzerocoinmints, false },
-        {"zerocoin", "resetmintzerocoin", &resetmintzerocoin, false },
-        {"zerocoin", "resetspentzerocoin", &resetspentzerocoin, false },
-        {"zerocoin", "getarchivedzerocoin", &getarchivedzerocoin, false },
-        {"zerocoin", "importzerocoins", &importzerocoins, false },
-        {"zerocoin", "exportzerocoins", &exportzerocoins, false },
-        {"zerocoin", "reconsiderzerocoins", &reconsiderzerocoins, false },
-        {"zerocoin", "getspentzerocoinamount", &getspentzerocoinamount, false },
-        {"zerocoin", "getzpivseed", &getzpivseed, false },
-        {"zerocoin", "setzpivseed", &setzpivseed, false },
-        {"zerocoin", "generatemintlist", &generatemintlist, false },
-        {"zerocoin", "searchdzpiv", &searchdzpiv, false },
-        {"zerocoin", "dzpivstate", &dzpivstate, false },
 
 #endif // ENABLE_WALLET
 };
@@ -568,6 +541,12 @@ std::string JSONRPCExecBatch(const UniValue& vReq)
 
 UniValue CRPCTable::execute(const JSONRPCRequest &request) const
 {
+    // Return immediately if in warmup
+    std::string strWarmupStatus;
+    if (RPCIsInWarmup(&strWarmupStatus)) {
+        throw JSONRPCError(RPC_IN_WARMUP, "RPC in warm-up: " + strWarmupStatus);
+    }
+
     // Find method
     const CRPCCommand* pcmd = tableRPC[request.strMethod];
     if (!pcmd)

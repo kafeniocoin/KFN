@@ -47,6 +47,6 @@ Links:
 
 • [Twitter](https://twitter.com/KafenioCoin)
 
-• [Discord](https://discord.gg/4cvKvaGYhK)
+• [Discord](https://discord.com/invite/vm5JEhmd)
 
 ---

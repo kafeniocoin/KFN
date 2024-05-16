@@ -28,7 +28,7 @@ Drag Kafeniocoin-Qt to your applications folder, and then run Kafeniocoin-Qt.
 
 * See the documentation at the [Kafeniocoin Wiki](https://github.com/kafeniocoin)
 for help and more information.
-* Join our Discord server [Discord Server](https://discord.gg/uTar2Sd)
+* Join our Discord server [Discord Server](https://discord.gg/4cvKvaGYhK)
 
 Building
 ---------------------
@@ -56,7 +56,7 @@ The Kafeniocoin repo's [root README](/README.md) contains relevant information o
 
 ### Resources
 * Discuss on the [Kafeniocoin Homepage](https://kafeniocoin.com/).
-* Join the [Kafeniocoin Discord](https://discord.gg/uTar2Sd).
+* Join the [Kafeniocoin Discord](https://discord.gg/4cvKvaGYhK).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

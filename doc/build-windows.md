@@ -73,8 +73,8 @@ If you want to build the windows installer with `make deploy` you need [NSIS](ht
 
 Acquire the source in the usual way:
 
-    git clone https://github.com/KafeniocoinBF/Kafeniocoin.git
-    cd pivx
+    git clone https://github.com/kafeniocoin/KFN.git
+    cd KFN
 
 ## Building for 64-bit Windows
 

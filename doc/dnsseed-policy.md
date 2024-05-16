@@ -44,7 +44,7 @@ related to the DNS seed operation.
 If these expectations cannot be satisfied the operator should
 discontinue providing services and contact the active Kafeniocoin
 Core development team as well as posting on the
-[Kafeniocoin Discord](https://discord.gg/uTar2Sd).
+[Kafeniocoin Discord](https://discord.gg/4cvKvaGYhK).
 
 Behavior outside of these expectations may be reasonable in some
 situations but should be discussed in public in advance.

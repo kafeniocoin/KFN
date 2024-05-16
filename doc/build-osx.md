@@ -38,13 +38,13 @@ from the root of the repository.
 
 **Note**: You only need Berkeley DB if the wallet is enabled (see [*Disable-wallet mode*](/doc/build-osx.md#disable-wallet-mode)).
 
-Build PIVX Core
+Build Kafeniocoin Core
 ------------------------
 
-1. Clone the PIVX Core source code:
+1. Clone the Kafeniocoin Core source code:
 
-        git clone https://github.com/KafeniocoinBF/Kafeniocoin
-        cd pivx
+        git clone https://github.com/kafeniocoin/KFN
+        cd KFN
 
 2.  Make the Homebrew OpenSSL headers visible to the configure script  (do ```brew info openssl``` to find out why this is necessary, or if you use Homebrew with installation folders different from the default).
 
